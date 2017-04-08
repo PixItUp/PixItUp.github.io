@@ -27,7 +27,7 @@ export function makeModelStorage(reducer: Reducer,
         updates.forEach((update, id) => {
           const socket = clients.get(id);
           if (socket){
-            socket.emit("update", update);
+            socket.emit("update", JSON.stringify(update));
           } else {
             //what happens now
           }
