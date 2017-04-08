@@ -2,7 +2,17 @@
 
 export type Event = {
   id: number,
-  data: any
+  data: SetName | Prompt
+}
+
+export type SetName = {
+  type: "SetName",
+  name: string
+}
+
+export type Prompt = {
+  type: "Prompt",
+  prompt: string
 }
 
 
