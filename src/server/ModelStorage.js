@@ -4,25 +4,26 @@
 /// To know what the latest event that the server know about from it was.
 
 import type {Event} from '../event';
+import type {Model, Player} from '../model';
 
-type ModelStorage<ModelT> = {
-  updateWithEvent: (event: Event, userId: String) => void,
-  currentModel: () => ModelT,
-  lastEventIdFor: (userId: String) => ?number;
+type ModelStorage = {
+  updateWithEvent: (event: Event, player: Player) => void,
+  currentModel: () => Model,
+  lastEventIdFor: (player: Player) => ?number;
 };
 
-function makeModelStorage<ModelT>(reducer: (Event, ModelT) => void,
-  startModel: ModelT): ModelStorage<ModelT>{
+function makeModelStorage(reducer: (Event, Model) => void,
+  startModel: Model): ModelStorage{
     const model = startModel;
-    const latestEventIds: Map<String, number> = new Map();//Stores for each user the latest event id
+    const latestEventIds: Map<string, number> = new Map();//Stores for each user the latest event id
 
-    function updateWithEvent(event: Event, userId: String){
+    function updateWithEvent(event: Event, player: Player){
       reducer(event, model);
-      latestEventIds.set(userId, event.id);
+      latestEventIds.set(player.name, event.id);
     }
 
-    function lastEventIdFor(userId: String) {
-      return latestEventIds.get(userId);
+    function lastEventIdFor(player: Player) {
+      return latestEventIds.get(player.name);
     }
 
     function currentModel(){

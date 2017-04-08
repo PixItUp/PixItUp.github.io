@@ -1,16 +1,16 @@
 //@flow
 
-type Model = {
+export type Model = {
   players: Player[],
   currentPlayer: number
 }
 
-type Player = {
+export type Player = {
   name: string,
   position: number
 }
 
-function makeModel(): Model {
+export function makeModel(): Model {
   var playerSet = []
   var numPlayers = 0
   var currentPlayer = 0
