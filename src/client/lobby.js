@@ -1,4 +1,7 @@
+// @flow
 
-export function makeLobby(players: Array<string>, socket){
+import type {LobbyUpdate} from '../update';
+
+export function makeLobby(update: LobbyUpdate, socket: any){
 
 }

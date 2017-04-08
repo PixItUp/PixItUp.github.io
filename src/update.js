@@ -2,27 +2,27 @@
 // import type {Model} from './model';
 import type {Drawing} from './drawing';
 
-export type Update = LobbyUpdate | PromptMode | DescribeMode | DrawMode | EndgameMode
+export type Update = LobbyUpdate | PromptUpdate | DescribeUpdate | DrawUpdate | EndgameUpdate
 
 export type LobbyUpdate = {
-  name: "LobbyMode",
+  name: "LobbyUpdate",
   players: Array<string>
 }
 
-export type PromptMode = {
-  name: "PromptMode"
+export type PromptUpdate = {
+  name: "PromptUpdate",
 }
 
-export type DescribeMode = {
-  name: "DescribeMode",
+export type DescribeUpdate = {
+  name: "DescribeUpdate",
   drawing: Drawing
 }
 
-export type DrawMode = {
-  name: "DrawMode",
+export type DrawUpdate = {
+  name: "DrawUpdate",
   description: string
 }
 
-export type EndgameMode = {
-  name: "EndgameMode"
+export type EndgameUpdate = {
+  name: "EndgameUpdate"
 }

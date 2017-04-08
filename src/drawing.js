@@ -1,5 +1,5 @@
 //@flow
 
 export type Drawing = {
-  id: number
+  dataURI: string
 }

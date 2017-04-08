@@ -9,11 +9,11 @@ const socket = io();
 // socket.emit("name", prompt("what is your name", "bro"));
 
 const divs:Map<string, any> = new Map({
-  LobbyMode: $("#lobbyDiv"),
-  PromptMode: $("#promptDiv"),
-  DescribeMode: $("#eventDiv"),
-  DrawMode: $("#describeDiv"),
-  EndgameMode: $("#endDiv")
+  LobbyUpdate: $("#lobbyDiv"),
+  PromptUpdate: $("#promptDiv"),
+  DescribeUpdate: $("#eventDiv"),
+  DrawUpdate: $("#describeDiv"),
+  EndgameUpdate: $("#endDiv")
 });
 
 function setVisible(modeName: string){
@@ -34,17 +34,17 @@ socket.on("update", function(updateStr){
     console.log("invalid update recived: " + updateStr);
   } else {
     setVisible(update.name);
-    if (update.type === "LobbyMode"){
+    if (update.type === "LobbyUpdate"){
 
-    } else if (update.name === "LobbyMode"){
+    } else if (update.name === "LobbyUpdate"){
 
-    } else if (update.name === "PromptMode"){
+    } else if (update.name === "PromUpdate"){
 
-    } else if (update.name === "DescribeMode"){
+    } else if (update.name === "DescribeUpdate"){
 
-    } else if (update.name === "DrawMode"){
+    } else if (update.name === "DrawUpdate"){
 
-    } else if (update.name === "EndgameMode"){
+    } else if (update.name === "EndgameUpdate"){
 
     } else {
       console.log("invalid update recived: " + updateStr);
