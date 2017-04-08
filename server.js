@@ -1,10 +1,11 @@
 // @flow
 const express = require('express');
 const http = require('http');
+const clientManager = require('./src/server/clientManager');
 
 var app = express();
 var httpServer: express.Server = http.createServer(app);
-var io = require('socket.io')(httpServer);
+var io:http.Server = require('socket.io')(httpServer);
 
 app.get('/', function(req, res){
   // res.send('<p>page</p>');
@@ -17,22 +18,7 @@ app.get('/bundle.js', function(req, res){
   res.sendFile(__dirname + '/dist/bundle.js');
 })
 
-const users: Set<String> = new Set();
-
-io.on('connection', function(socket){
-  var name = null;
-  console.log('a user connected');
-  socket.on('disconnect', () => {
-    if (name){
-      console.log(name + " disconnected");
-    }
-    console.log('a user disconnected');
-  })
-  socket.on('name', function(message){
-    name = message;
-    console.log(message);
-  })
-});
+clientManager.setup(io);
 
 httpServer.listen(8000, function(){
   console.log('listening on *:3000');

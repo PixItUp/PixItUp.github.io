@@ -8,7 +8,8 @@
     "compile": "babel src/ -D lib/",
     "flow": "flow",
     "server": "node_modules/babel-cli/bin/babel-node.js server.js",
-    "webpack": "webpack --watch"
+    "webpack": "webpack --watch",
+    "repl": "babel-node"
   },
   "author": "Jacob Prinz <jacobeliasprinz@gmail.com>",
   "license": "ISC",
