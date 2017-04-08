@@ -9,19 +9,40 @@
 
   <div id="lobbyDiv">
 
+    <div class="container">
+      <div class="jumbotron">
+        <h1>Welcome to [INSERT TITLE]!</h1>
+        <p>The cool drawing game heck yes</p>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <form class="form-inline">
+        <div class="form-group">
+          <label for="usr">Username:</label>
+          <input type="text" class="form-control" id="name-input">
+        </div>
+        <button class="btn btn-default">Submit</button>
+      </form>
+    </div>
+
   </div>
 
   <div id="promptDiv">
+    <input id="prompt-input">
   </div>
 
   <div id="describeDiv">
+    <img id="describe-image"/>
+    <input id="describe-input">
   </div>
 
   <div id="drawDiv">
     <div id="tools">
       <a href="#colors_sketch" data-download="png" style="float: right; width: 100px;">Download</a>
     </div>
-    <canvas id="colors_sketch" width="800" height="300"></canvas>
+    <canvas id="drawing" width="800" height="300"></canvas>
   </div>
 
   <div id="endDiv">
