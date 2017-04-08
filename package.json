@@ -4,12 +4,12 @@
   "description": "",
   "main": "test.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "compile": "babel src/ -D lib/",
     "flow": "flow",
     "server": "node_modules/babel-cli/bin/babel-node.js server.js",
     "webpack": "webpack --watch",
-    "repl": "babel-node"
+    "repl": "babel-node",
+    "test": "babel-node test/testReducer.js"
   },
   "author": "Jacob Prinz <jacobeliasprinz@gmail.com>",
   "license": "ISC",
