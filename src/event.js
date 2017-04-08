@@ -23,7 +23,7 @@ export type Describe = {
 }
 
 export type Draw = {
-  type: "Drawing",
+  type: "Draw",
   drawing: Drawing
 }
 
