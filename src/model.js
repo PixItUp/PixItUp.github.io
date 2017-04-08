@@ -1,21 +1,55 @@
 //@flow
 
+import type {Drawing} from "./drawing.js"
+
 export type Model = {
-  players: Player[],
-  currentPlayer: number
+  players: Map<number, Player>,
+  currentPlayer: number,
+  mode: LobbyMode | GameMode | EndMode
+
 }
 
 export type Player = {
   name: string,
-  position: number
+  clientId: number
+}
+
+export type LobbyMode = {
+  name: "LobbyMode"
+}
+
+export type GameMode = {
+  name: "GameMode",
+  lines: PhoneLine[]
+}
+
+export type EndMode = {
+  name: "EndMode",
+  phoneNetwork: PhoneLine[]
+
+}
+
+export type PhoneLine = {
+  id: number,
+  line: (Drawing | string)[],
+  startingPlayer: Player
 }
 
 export function makeModel(): Model {
-  var playerSet = []
-  var numPlayers = 0
-  var currentPlayer = 0
+  let playerSet = []
+  let currentPlayer = 0
 
-  return {players: playerSet, numPlayers: numPlayers, currentPlayer: currentPlayer}
+  return {
+    players: new Map(),
+    currentPlayer: 0,
+    mode: makeLobbyMode()
+  }
+}
+
+export function makeLobbyMode(): LobbyMode {
+  return {
+    name: "LobbyMode",
+  }
 }
 
 function playerNames(model: Model) {

@@ -12,13 +12,13 @@ export type ModelStorage = {
   lastEventIdFor: () => Map<number, number>;
 };
 
-export function makeModelStorage(reducer: (Event, Model) => void,
+export function makeModelStorage(reducer: (Event, number, Model) => void,
   startModel: Model): ModelStorage{
     const model = startModel;
     const latestEventIds: Map<number, number> = new Map();//Stores for each user the latest event id
 
     function updateWithEvent(event: Event, clientId: number){
-      reducer(event, model);
+      reducer(event, clientId, model);
       latestEventIds.set(clientId, event.id);
     }
 
