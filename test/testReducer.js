@@ -39,4 +39,9 @@ console.log(testModel.mode.lines.get(0))
 console.log("client -20.4 says")
 console.log(testModel.mode.lines.get(-20.4))*/
 
-//let drawTest = {id: 0, data: {type: "Draw", drawing: {dataURI: "oh hi"}}}
+console.log("OKAY FOLKS WE ARE GOING TO TEST THE DRAW EVENT NOW")
+
+let drawTest = {id: 0, data: {type: "Draw", drawing: {dataURI: "oh hi"}}}
+reducer(drawTest, 0, testModel)
+console.log(testModel)
+console.log(testModel.mode.lines.get(0))

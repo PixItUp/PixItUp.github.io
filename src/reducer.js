@@ -7,7 +7,9 @@ import type {LobbyUpdate} from './update';
 import {makeGameMode} from './model';
 import {makePromptMode} from './model';
 import type {PromptMode} from './model';
-import type {PromptUpdate} from './update';
+import type {PromptUpdate, DescribeUpdate, DrawUpdate} from './update';
+import {getNextPlayer} from './model';
+import type {Drawing} from './drawing'
 
 export const reducer: Reducer = function(event, clientId, model){
   if (model.mode.name === "LobbyMode") {
@@ -25,7 +27,7 @@ const lobbyMode: Reducer = function(event, clientId, model) {
     model.players.set(clientId, newPlayer)
     return updateAll(model, makeLobbyUpdate(model))
   } else if (event.data.type === "Connect"){
-    //bla
+    return new Map([[clientId, makeLobbyUpdate(model)]])
   } else if (event.data.type === "StartGame") {
     model.mode = makePromptMode(model.players)
   }
@@ -36,15 +38,18 @@ const promptMode: Reducer = function(event, clientId, model) {
     let words = event.data.prompt
     if (model.mode.name === "PromptMode") {
       let lines = model.mode.lines
+      let order = model.mode.playerOrder
       let currentLine = lines.get(clientId)
       if (currentLine && currentLine.line) {
         currentLine.line.push(words)
         let promptsDone = true
         lines.forEach(function(line, id) {promptsDone = promptsDone && line.line[0]})
         if (promptsDone) {
-          model.mode = makeGameMode(lines)
+          model.mode = makeGameMode(lines, order)
         }
-        //let assignToNext = makePromptUpdate(model)
+        let assignToNext = makePromptUpdate(model)
+        let updateMap = new Map()
+        updateMap.set(getNextPlayer(order, clientId), assignToNext)
 
       } else {
         console.log("something weird happened involving a phone line which didn't exist")
@@ -53,12 +58,6 @@ const promptMode: Reducer = function(event, clientId, model) {
       console.log("a prompt event occurred when we weren't even in prompt mode I mean what")
     }
 
-  }
-}
-
-function makePromptUpdate(model: Model): PromptUpdate {
-  return {
-    name: "PromptUpdate"
   }
 }
 
@@ -73,9 +72,12 @@ const gameMode: Reducer = function(event, clientId, model){
     let drawing = event.data.drawing;
     if (model.mode.name === "GameMode") {
       let lines = model.mode.lines
+      let order = model.mode.playerOrder
       let currentLine = lines.get(clientId)
       if (currentLine && currentLine.line) {
         currentLine.line.push(drawing)
+        let updateMap = new Map()
+        updateMap.set(getNextPlayer(order, clientId), makeDescribeUpdate(drawing))
       } else {
         console.log("you have dialed an imaginary number. please rotate phone by 90 degrees and try again")
       }
@@ -88,7 +90,18 @@ const gameMode: Reducer = function(event, clientId, model){
   }
 }
 
+function makePromptUpdate(model: Model): PromptUpdate {
+  return {
+    name: "PromptUpdate"
+  }
+}
 
+function makeDescribeUpdate(drawing : Drawing): DescribeUpdate {
+  return {
+    name: "DescribeUpdate",
+    drawing: drawing
+  }
+}
 
 function updateAll(model: Model, update: Update): Map<number, Update> {
   let updateMap = new Map()
