@@ -1,8 +1,10 @@
 // @flow
 
+import type {Drawing} from './drawing';
+
 export type Event = {
   id: number,
-  data: SetName | Prompt
+  data: SetName | Prompt | Describe | Draw | Disconnect | Connect
 }
 
 export type SetName = {
@@ -13,6 +15,24 @@ export type SetName = {
 export type Prompt = {
   type: "Prompt",
   prompt: string
+}
+
+export type Describe = {
+  type: "Describe",
+  description: string
+}
+
+export type Draw = {
+  type: "Drawing",
+  drawing: Drawing
+}
+
+export type Connect = {
+  type: "Connect"
+}
+
+export type Disconnect = {
+  type: "Disconnect"
 }
 
 
