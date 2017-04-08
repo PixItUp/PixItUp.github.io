@@ -46,6 +46,13 @@ export function makeModel(): Model {
   }
 }
 
+export function makeGameMode(): GameMode {
+  return {
+    name: "GameMode",
+    lines: []
+  }
+}
+
 export function makeLobbyMode(): LobbyMode {
   return {
     name: "LobbyMode",

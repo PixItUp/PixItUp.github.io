@@ -18,6 +18,9 @@ app.get('/bundle.js', function(req, res){
   res.sendFile(__dirname + '/dist/bundle.js');
 })
 
+app.use('/css', express.static(__dirname + '/dist/css'));
+app.use('/media', express.static(__dirname + '/dist/media'));
+
 clientManager.setup(io);
 
 httpServer.listen(8000, function(){

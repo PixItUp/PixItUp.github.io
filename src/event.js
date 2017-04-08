@@ -4,7 +4,7 @@ import type {Drawing} from './drawing';
 
 export type Event = {
   id: number,
-  data: SetName | Prompt | Describe | Draw | Disconnect | Connect
+  data: SetName | Prompt | Describe | Draw | Disconnect | Connect | StartGame
 }
 
 export type SetName = {
@@ -33,6 +33,10 @@ export type Connect = {
 
 export type Disconnect = {
   type: "Disconnect"
+}
+
+export type StartGame = {
+  type: "StartGame"
 }
 
 
