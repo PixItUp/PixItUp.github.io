@@ -8,4 +8,12 @@ import type {Container} from './htmlUtils';
 
 export function setupDraw(update: DrawUpdate, socket: any){
   $('#drawing').sketch();
+  function submitDrawing() {
+    socket.emit("event", JSON.stringify({
+      data: {
+        type: "Draw",
+        drawing: $('#drawing')[0].toDataURL()
+      }
+    }))
+  }
 }

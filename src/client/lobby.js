@@ -44,7 +44,6 @@ export function setupLobby(update: LobbyUpdate, socket: any){
   })
 
   $("#startGame").click(function(){
-    console.log("asdfasdf")
     socket.emit("event", JSON.stringify({
       data: {
         type: "StartGame"

@@ -24,9 +24,7 @@ $(document).ready(function(){
   ]);
 
   function setVisible(modeName: string){
-    window.divs = []
     divs.forEach((div, name) => {
-      window.divs.push(div);
       div.hide();
     })
     const div = divs.get(modeName);

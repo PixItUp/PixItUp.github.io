@@ -6,7 +6,6 @@ const $ = require("jquery");
 
 export function setupPrompt(update: PromptUpdate, socket: any){
   function takePrompt() {
-    console.log($("#prompt-input").val())
     socket.emit("event", JSON.stringify({
       data: {
         type: "Prompt",
