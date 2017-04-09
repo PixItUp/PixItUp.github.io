@@ -97,8 +97,17 @@ export const sketch = (function($) {
     };
     Sketch.prototype.onEvent = function(e) {
       if (e.originalEvent && e.originalEvent.targetTouches) {
-        e.pageX = e.originalEvent.targetTouches[0].pageX;
-        e.pageY = e.originalEvent.targetTouches[0].pageY;
+        // e.pageX = e.originalEvent.targetTouches[0].pageX;
+        // e.pageY = e.originalEvent.targetTouches[0].pageY;
+        // NOTE TO CURIOUS READERS: the above two lines are the official sketch
+        // implementation. The following 6 lines are a fix for mobile browsers
+        // from a stackoverflow answer http://stackoverflow.com/questions/17471559/drawing-canvas-for-mobile-webpages-with-sketch-js-resets-ontouch
+        if (e.originalEvent.targetTouches[0] !== undefined && e.originalEvent.targetTouches[0].pageX!==undefined){
+          e.pageX = e.originalEvent.targetTouches[0].pageX;
+        }
+        if (e.originalEvent.targetTouches[0] !== undefined &&e.originalEvent.targetTouches[0].pageY){
+            e.pageY = e.originalEvent.targetTouches[0].pageY;
+        }
       }
       $.sketch.tools[$(this).data('sketch').tool].onEvent.call($(this).data('sketch'), e);
       e.preventDefault();

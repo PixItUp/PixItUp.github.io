@@ -36,12 +36,10 @@ $(document).ready(function(){
   }
 
   socket.on("update", function(updateStr){
-    const update: any = JSON.parse(updateStr);//NOTE: any not ideal (in fact it is completely unsafe) but fuckit 
-    console.log("updated with " + updateStr);
+    const update: any = JSON.parse(updateStr);//NOTE: any not ideal (in fact it is completely unsafe) but fuckit
     if (!update.name){
       console.log("invalid update recived: " + updateStr);
     } else {
-      console.log("update type of " + String(update.name));
       setVisible(update.name);
       if (update.name === "LobbyUpdate"){
         setupLobby(update, socket);
