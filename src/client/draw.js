@@ -7,8 +7,11 @@ import type {DrawUpdate} from '../update';
 import type {Container} from './htmlUtils';
 
 export function setupDraw(update: DrawUpdate, socket: any){
+  const canvas = $('#drawing')[0];
+  canvas.width = canvas.width;//Clears canvas
   $('#drawing').sketch();
   function submitDrawing() {
+    console.log($('#drawing')[0].toDataURL());
     socket.emit("event", JSON.stringify({
       data: {
         type: "Draw",
@@ -16,4 +19,5 @@ export function setupDraw(update: DrawUpdate, socket: any){
       }
     }))
   }
+  $("#submit-drawing").click(submitDrawing);
 }
