@@ -46,14 +46,15 @@ const promptMode: Reducer = function(event, clientId, model) {
         let assignToNext = makeDrawUpdate(words)
         let nextPlayer = model.players.get(getNextPlayer(order, clientId))
         if (nextPlayer) {
-          nextPlayer.jobQueue.addJob(assignToNext)
+          addJob(nextPlayer.jobQueue, assignToNext)
         }
         let promptsDone = true
         lines.forEach(function(line, id) {promptsDone = promptsDone && line.line[0]})
         if (promptsDone) {
           model.mode = makeGameMode(lines, order)
           let updateMap = new Map()
-          model.players.forEach(function(player, id) {updateMap.set(id, player.jobQueue.getJob())})
+          model.players.forEach(function(player, id) {updateMap.set(id, getJob(player.jobQueue))})
+          return updateMap
         }
 
       } else {
@@ -86,18 +87,19 @@ const gameMode: Reducer = function(event, clientId, model){
         let nextPlayer = model.players.get(nextPlayerId)
         if (nextPlayer) {
           let newUpdate = makeDescribeUpdate(drawing)
-          nextPlayer.jobQueue.addJob(newUpdate)
+          addJob(nextPlayer.jobQueue, newUpdate)
           if (nextPlayer.jobQueue.length == 0) {
             updateMap.set(nextPlayerId, newUpdate)
           }
         }
         let currentPlayer = model.players.get(clientId)
-          if (currentPlayer) {
-            finishJob(currentPlayer.jobQueue)
-            if (currentPlayer.jobQueue.length > 0) {
-              updateMap.set(clientId, getJob(currentPlayer.jobQueue()))
-            }
+        if (currentPlayer) {
+          finishJob(currentPlayer.jobQueue)
+          if (currentPlayer.jobQueue.length > 0) {
+            updateMap.set(clientId, getJob(currentPlayer.jobQueue))
           }
+        }
+        return updateMap
       } else {
         console.log("you have dialed an imaginary number. please rotate phone by 90 degrees and try again")
       }
@@ -118,7 +120,7 @@ const gameMode: Reducer = function(event, clientId, model){
         let nextPlayer = model.players.get(nextPlayerId)
         if (nextPlayer) {
           let newUpdate = makeDrawUpdate(description)
-          nextPlayer.jobQueue.addJob(newUpdate)
+          addJob(nextPlayer.jobQueue, newUpdate)
           if (nextPlayer.jobQueue.length == 0) {
             updateMap.set(nextPlayerId, newUpdate)
           }
@@ -127,9 +129,10 @@ const gameMode: Reducer = function(event, clientId, model){
         if (currentPlayer) {
           finishJob(currentPlayer.jobQueue)
           if (currentPlayer.jobQueue.length > 0) {
-            updateMap.set(clientId, getJob(currentPlayer.jobQueue()))
+            updateMap.set(clientId, getJob(currentPlayer.jobQueue))
           }
         }
+        return updateMap
       }
     }
   }
