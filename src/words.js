@@ -6,7 +6,7 @@ var sls=['A blessing in disguise','A dime a dozen','Beat around the bush','Bette
 function cleaner(sts){
   var sp =sts.split(" ")
   for(var i=0;i<sp.length;i++){
-    sts=sts.replace(sp[i]+" "+sp[i],sp[i])
+    sts=sts.replace(" "+sp[i]+" "+sp[i]+" "," "+sp[i]+" ")
   }
   sts= sts.replace("the any","any")
   sts= sts.replace("or\\\'s","or")
@@ -166,15 +166,14 @@ return wordpos.getNouns(s).then(function(b){
     })
   })
 }
-export function takestring(s){
+ export function takestring(s){
   var xs=[]
   return takestringr(s,xs,1,1)
 }
-export  function dothis(num){
+  export function dothis(num){
   var xs=[]
   return dostuff(num,xs)
 }
-
   // dothis(10).then(console.log)
  // for(var i=0;i<sls.length;i++){
  //   for(var j=0;j<1;j++){
