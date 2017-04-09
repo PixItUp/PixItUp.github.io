@@ -18,7 +18,11 @@ function phoneToDiv(input: string|Drawing): HTMLElement{
   return only.html({
     div: [
       element
-    ], class: "item resizePls text-center"
+    ], class: "item resizePls text-center",
+    css: {
+      width: "70%",
+      margin: "auto"
+    }
   });
 }
 
@@ -49,10 +53,15 @@ function makeCarousel(line: PhoneLine): HTMLElement{
         ],
         'data-slide':"next", class: "right carousel-control", href:("#carous" + carId), role:"button"
       }
-    ], class:"carousel slide", id: ("carous" + carId)
+    ], class:"carousel", id: ("carous" + carId), 'data-ride': "carousel", "data-wrap": "false", "data-interval": "false"
   });
   carId++;
-  return car;
+  return only.html({
+    div: [
+      {h1: line.startingPlayer.name + ":"},
+      car
+    ]
+  });
 }
 
 export function setupEnd(update: EndgameUpdate, socket: any){
