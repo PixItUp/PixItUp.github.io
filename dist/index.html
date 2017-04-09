@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta charset="utf-7"/>
+<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
 <script src="bundle.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/lib/bootstrap.css" />
@@ -55,10 +56,11 @@
 
 <div id="promptDiv" style="display:none">
   <div class="container">
-    <h2>Enter a drawing prompt:</h2>
+    <h2>A word or phrase to be drawn:</h2>
+    <p>(Dont know what to write? Try mixing it up!)</p>
     <div class="form-group">
       <label for="prmt">Your prompt:</label>
-      <input type="text" class="form-control" id="prompt-input" placeholder="Example: A bird in the hand is worth two in the bush">
+      <input type="text" class="form-control" id="prompt-input" placeholder="">
     </div>
     <div class="btn-group btn-group-lg" id="promptButtons">
       <button type="button" class="btn btn-primary" id="mix-it">Mix it up!</button>
@@ -90,7 +92,7 @@
 <div id="drawDiv" style="display:none">
   <div class="container">
     <h2>Draw this prompt:</h2>
-    <p id="draw-prompt"></p>
+    <i><p id="draw-prompt"></p></i>
   </div>
   <div class="container">
     <div id="tools">
