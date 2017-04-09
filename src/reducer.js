@@ -8,7 +8,7 @@ import {makeGameMode} from './model';
 import {makePromptMode} from './model';
 import type {PromptMode, GameMode, PhoneLine} from './model';
 import type {PromptUpdate, DescribeUpdate, DrawUpdate, EndgameUpdate} from './update';
-import {getNextPlayer, getPreviousPlayer} from './model';
+import {getNextPlayer, getPreviousPlayer, makeModel} from './model';
 import type {Drawing} from './drawing';
 import {makeJobQueue, finishJob, addJob, getJob} from './jobQueue';
 
@@ -17,6 +17,9 @@ export const reducer: Reducer = function(event, clientId, model){
     model.clients.add(clientId);
   } else if (event.data.type === "Disconnect"){
     model.clients.delete(clientId);
+    if (model.clients.size === 0) {
+      doYourselfForARestart(model)
+    }
   }
 
 
@@ -56,8 +59,9 @@ const promptMode: Reducer = function(event, clientId, model) {
         let currentLine = lines.get(clientId)
         let currentLineOwner = clientId
         let currentPlayer = model.players.get(clientId)
+        let round = 0
         if (currentPlayer) {
-          let round = currentPlayer.roundNumber
+          round = currentPlayer.roundNumber
           if (round) {
             for (let i = 0; i < round; i++) {
               currentLineOwner = getPreviousPlayer(order, currentLineOwner)
@@ -67,24 +71,25 @@ const promptMode: Reducer = function(event, clientId, model) {
         currentLine = lines.get(currentLineOwner)
 
         if (currentLine && currentLine.line) {
-          currentLine.line.push(words)
-          if (currentPlayer) {
-            currentPlayer.roundNumber = currentPlayer.roundNumber + 1
+          if (currentLine.line.length <= round) {
+            currentLine.line.push(words)
+            if (currentPlayer) {
+              currentPlayer.roundNumber = currentPlayer.roundNumber + 1
+            }
+            let assignToNext = makeDrawUpdate(words)
+            let nextPlayer = model.players.get(getNextPlayer(order, clientId))
+            if (nextPlayer) {
+              addJob(nextPlayer.jobQueue, assignToNext)
+            }
+            let promptsDone = true
+            lines.forEach(function(line, id) {promptsDone = promptsDone && line.line[0]})
+            if (promptsDone) {
+              model.mode = makeGameMode(lines, order)
+              let updateMap = new Map()
+              model.players.forEach(function(player, id) {updateMap.set(id, getJob(player.jobQueue))})
+              return updateMap
+            }
           }
-          let assignToNext = makeDrawUpdate(words)
-          let nextPlayer = model.players.get(getNextPlayer(order, clientId))
-          if (nextPlayer) {
-            addJob(nextPlayer.jobQueue, assignToNext)
-          }
-          let promptsDone = true
-          lines.forEach(function(line, id) {promptsDone = promptsDone && line.line[0]})
-          if (promptsDone) {
-            model.mode = makeGameMode(lines, order)
-            let updateMap = new Map()
-            model.players.forEach(function(player, id) {updateMap.set(id, getJob(player.jobQueue))})
-            return updateMap
-          }
-
         } else {
           console.log("something weird happened involving a phone line which didn't exist")
         }
@@ -111,8 +116,9 @@ const gameMode: Reducer = function(event, clientId, model){
       let currentLine = lines.get(clientId)
       let currentLineOwner = clientId
       let currentPlayer = model.players.get(clientId)
+      let round = 0
       if (currentPlayer) {
-        let round = currentPlayer.roundNumber
+        round = currentPlayer.roundNumber
         if (round) {
           for (let i = 0; i < round; i++) {
             currentLineOwner = getPreviousPlayer(order, currentLineOwner)
@@ -121,37 +127,38 @@ const gameMode: Reducer = function(event, clientId, model){
       }
       currentLine = lines.get(currentLineOwner)
       if (currentLine) {
-        currentLine.line.push(drawing)
-        let updateMap = new Map()
-        let currentPlayer = model.players.get(clientId)
-        if (currentPlayer) {
-          currentPlayer.roundNumber = currentPlayer.roundNumber + 1
-          finishJob(currentPlayer.jobQueue)
-          if (currentPlayer.jobQueue.length > 0) {
-            updateMap.set(clientId, getJob(currentPlayer.jobQueue))
-          }
-        }
-        let nextPlayerId = getNextPlayer(order, clientId)
-        let nextPlayer = model.players.get(nextPlayerId)
-        if (nextPlayer) {
-          if (currentLine.startingPlayer !== nextPlayer) {
-            let newUpdate = makeDescribeUpdate(drawing)
-            addJob(nextPlayer.jobQueue, newUpdate)
-            if (nextPlayer.jobQueue.length == 1) {
-              updateMap.set(nextPlayerId, newUpdate)
+        if (currentLine.line.length <= round) {
+          currentLine.line.push(drawing)
+          let updateMap = new Map()
+          let currentPlayer = model.players.get(clientId)
+          if (currentPlayer) {
+            currentPlayer.roundNumber = currentPlayer.roundNumber + 1
+            finishJob(currentPlayer.jobQueue)
+            if (currentPlayer.jobQueue.length > 0) {
+              updateMap.set(clientId, getJob(currentPlayer.jobQueue))
             }
-          } else {
-            if (areWeDone(model)) {
-              if (model.mode.name === "GameMode"){
-                return updateAll(model, makeEndgameUpdate(model.mode))
-              } else {
-                console.log("well shit");
+          }
+          let nextPlayerId = getNextPlayer(order, clientId)
+          let nextPlayer = model.players.get(nextPlayerId)
+          if (nextPlayer) {
+            if (currentLine.startingPlayer !== nextPlayer) {
+              let newUpdate = makeDescribeUpdate(drawing)
+              addJob(nextPlayer.jobQueue, newUpdate)
+              if (nextPlayer.jobQueue.length == 1) {
+                updateMap.set(nextPlayerId, newUpdate)
+              }
+            } else {
+              if (areWeDone(model)) {
+                if (model.mode.name === "GameMode"){
+                  return updateAll(model, makeEndgameUpdate(model.mode))
+                } else {
+                  console.log("well shit");
+                }
               }
             }
           }
+          return updateMap
         }
-
-        return updateMap
       } else {
         console.log("you have dialed an imaginary number. please rotate phone by 90 degrees and try again")
       }
@@ -167,8 +174,9 @@ const gameMode: Reducer = function(event, clientId, model){
       let currentLine = lines.get(clientId)
       let currentLineOwner = clientId
       let currentPlayer = model.players.get(clientId)
+      let round = 0
       if (currentPlayer) {
-        let round = currentPlayer.roundNumber
+        round = currentPlayer.roundNumber
         if (round) {
           for (let i = 0; i < round; i++) {
             currentLineOwner = getPreviousPlayer(order, currentLineOwner)
@@ -177,37 +185,39 @@ const gameMode: Reducer = function(event, clientId, model){
       }
       currentLine = lines.get(currentLineOwner)
       if (currentLine) {
-        currentLine.line.push(description)
-        let updateMap = new Map()
-        let currentPlayer = model.players.get(clientId)
-        if (currentPlayer) {
-          currentPlayer.roundNumber = currentPlayer.roundNumber + 1
-          finishJob(currentPlayer.jobQueue)
-          if (currentPlayer.jobQueue.length > 0) {
-            updateMap.set(clientId, getJob(currentPlayer.jobQueue))
-          }
-        }
-        let nextPlayerId = getNextPlayer(order, clientId)
-        let nextPlayer = model.players.get(nextPlayerId)
-        if (nextPlayer) {
-          if (currentLine.startingPlayer !== nextPlayer) {
-            let newUpdate = makeDrawUpdate(description)
-            addJob(nextPlayer.jobQueue, newUpdate)
-            if (nextPlayer.jobQueue.length == 1) {
-              updateMap.set(nextPlayerId, newUpdate)
+        if (currentLine.line.length <= round) {
+          currentLine.line.push(description)
+          let updateMap = new Map()
+          let currentPlayer = model.players.get(clientId)
+          if (currentPlayer) {
+            currentPlayer.roundNumber = currentPlayer.roundNumber + 1
+            finishJob(currentPlayer.jobQueue)
+            if (currentPlayer.jobQueue.length > 0) {
+              updateMap.set(clientId, getJob(currentPlayer.jobQueue))
             }
-          } else {
-            if (areWeDone(model)) {
-              if (model.mode.name === "GameMode"){
-                return updateAll(model, makeEndgameUpdate(model.mode))
-              } else {
-                console.log("well shit");
+          }
+          let nextPlayerId = getNextPlayer(order, clientId)
+          let nextPlayer = model.players.get(nextPlayerId)
+          if (nextPlayer) {
+            if (currentLine.startingPlayer !== nextPlayer) {
+              let newUpdate = makeDrawUpdate(description)
+              addJob(nextPlayer.jobQueue, newUpdate)
+              if (nextPlayer.jobQueue.length == 1) {
+                updateMap.set(nextPlayerId, newUpdate)
+              }
+            } else {
+              if (areWeDone(model)) {
+                if (model.mode.name === "GameMode"){
+                  return updateAll(model, makeEndgameUpdate(model.mode))
+                } else {
+                  console.log("well shit");
+                }
               }
             }
           }
-        }
 
-        return updateMap
+          return updateMap
+        }
       }
     }
   }
@@ -259,5 +269,12 @@ function makeEndgameUpdate(mode: GameMode): EndgameUpdate {
   return {
     name: "EndgameUpdate",
     lines: lines
+  }
+}
+
+function doYourselfForARestart(model: Model) {
+  let newOne = makeModel()
+  for (let attr in newOne){
+    model[attr] = newOne[attr];
   }
 }

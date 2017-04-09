@@ -28,3 +28,7 @@ export type EndgameUpdate = {
   name: "EndgameUpdate",
   lines: Array<PhoneLine>
 }
+
+export type GameInProgressUpdate = {
+  name: "GameInProgressUpdate"
+}
