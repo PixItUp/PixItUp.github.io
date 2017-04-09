@@ -64,7 +64,7 @@ return wordpos.getNouns(s).then(function(b){
   })
 })}
 
-function dothis(num){
+export function dothis(num){
   var xs=[]
   return dostuff(num,xs)
 }

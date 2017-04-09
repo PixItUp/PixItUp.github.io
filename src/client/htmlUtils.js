@@ -6,9 +6,13 @@ export type Container = {
   removeChild: () => void,
   setChild: (HTMLElement) => void
 }
-export function removeChildren(node, newChild: ?HTMLElement){
+export function removeChildren(node: HTMLElement, newChild: ?HTMLElement){
   while (node.hasChildNodes()) {
-    node.removeChild(node.lastChild);
+    if (node.lastChild){
+      node.removeChild(node.lastChild);
+    } else {
+      throw "this should never happen";
+    }
   }
   if (newChild){
     node.appendChild(newChild);
