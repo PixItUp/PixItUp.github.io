@@ -20,7 +20,7 @@ export function setupDraw(update: DrawUpdate, socket: any){
     const width = Math.min($("#drawDiv").width(), 750);
     const height = Math.min($("#drawDiv").height(), 750);
     $(canvas).attr('width',  width * 0.9);
-    $(canvas).attr('height', height * 0.5);
+    $(canvas).attr('height', Math.max(height * 0.7 - 100, 200));
   }
   resizeCanvas();
 
@@ -44,5 +44,5 @@ export function setupDraw(update: DrawUpdate, socket: any){
   }
   button.click(submitDrawing);
 
-  $("#draw-prompt").text(update.description);
+  $("#draw-prompt").text('"' + update.description + '"');
 }
