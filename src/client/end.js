@@ -11,7 +11,7 @@ const $ = require("jquery");
 function phoneToDiv(input: string|Drawing): HTMLElement{
   var element;
   if (typeof input === "string"){
-    element = {p: input};
+    element = {h1: input};
   } else {
     element = {img: "", src: input.dataURI, alt: "Display error"}
   }
