@@ -39,6 +39,7 @@ $(document).ready(function(){
 
   socket.on("update", function(updateStr){
     const update: any = JSON.parse(updateStr);//NOTE: any not ideal but fuckit
+    console.log("updated with " + updateStr);
     if (!update.name){
       console.log("invalid update recived: " + updateStr);
     } else {

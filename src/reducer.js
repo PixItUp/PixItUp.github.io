@@ -13,6 +13,14 @@ import type {Drawing} from './drawing';
 import {makeJobQueue, finishJob, addJob, getJob} from './jobQueue';
 
 export const reducer: Reducer = function(event, clientId, model){
+  if (event.data.type === "Connect"){
+    model.clients.add(clientId);
+  } else if (event.data.type === "Disconnect"){
+    model.clients.delete(clientId);
+  }
+
+
+
   if (model.mode.name === "LobbyMode") {
     return lobbyMode(event, clientId, model);
   } else if (model.mode.name === "PromptMode") {
@@ -31,6 +39,7 @@ const lobbyMode: Reducer = function(event, clientId, model) {
     return new Map([[clientId, makeLobbyUpdate(model)]])
   } else if (event.data.type === "StartGame") {
     model.mode = makePromptMode(model.players)
+    return updatePlayers(model, makePromptUpdate(model));
   }
 }
 
@@ -159,6 +168,12 @@ function makeDrawUpdate(description : string): DrawUpdate {
 }
 
 function updateAll(model: Model, update: Update): Map<number, Update> {
+  let updateMap = new Map()
+  model.clients.forEach(function(id) {updateMap.set(id, update)})
+  return updateMap
+}
+
+function updatePlayers(model: Model, update: Update): Map<number, Update> {
   let updateMap = new Map()
   model.players.forEach(function(player, id) {updateMap.set(id, update)})
   return updateMap

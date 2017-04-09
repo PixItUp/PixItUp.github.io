@@ -30,4 +30,26 @@ export function setupLobby(update: LobbyUpdate, socket: any){
     ], class: "table order-list"
   });
   removeChildren(tableContainer, table);
+
+  $("#name-form").submit(function(){
+    socket.emit("event", JSON.stringify({
+      id: 0,
+      data: {
+        type: "SetName",
+        name: $("#name-input").val()
+      }
+    }))
+    $(this).text("");
+    return false;
+  })
+
+  $("#startGame").click(function(){
+    console.log("asdfasdf")
+    socket.emit("event", JSON.stringify({
+      data: {
+        type: "StartGame"
+      }
+    }))
+    return false;
+  })
 }
