@@ -113,6 +113,7 @@ $(document).ready(function () {
 
   socket.on("update", function (updateStr) {
     var update = JSON.parse(updateStr); //NOTE: any not ideal but fuckit
+    console.log("updated with " + updateStr);
     if (!update.name) {
       console.log("invalid update recived: " + updateStr);
     } else {
@@ -19469,6 +19470,28 @@ function setupLobby(update, socket) {
     table: [{ thead: [{ tr: [{ th: "Players" }] }] }, { tbody: makeTable(update.players) }], class: "table order-list"
   });
   (0, _htmlUtils.removeChildren)(tableContainer, table);
+
+  $("#name-form").submit(function () {
+    socket.emit("event", JSON.stringify({
+      id: 0,
+      data: {
+        type: "SetName",
+        name: $("#name-input").val()
+      }
+    }));
+    $(this).text("");
+    return false;
+  });
+
+  $("#startGame").click(function () {
+    console.log("asdfasdf");
+    socket.emit("event", JSON.stringify({
+      data: {
+        type: "StartGame"
+      }
+    }));
+    return false;
+  });
 }
 
 /***/ }),
