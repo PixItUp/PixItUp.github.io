@@ -14,20 +14,26 @@ export function setupDescribe(update: DescribeUpdate, socket: any){
   button.show();
 
   $("#prompt-image").attr('src', update.drawing.dataURI)
+  var notGoneYet = true;
   function submitDescription() {
-    const description = input.val();
-    if (description){
-      socket.emit("event", JSON.stringify({
-        data: {
-          type: "Describe",
-          description: description
-        }
-      }))
-      input.prop("disabled", true);
-      button.hide();
-      submitted.show();
+    if (notGoneYet){
+      const description = input.val();
+      if (description){
+        socket.emit("event", JSON.stringify({
+          data: {
+            type: "Describe",
+            description: description
+          }
+        }))
+        input.prop("disabled", true);
+        button.hide();
+        submitted.show();
+        notGoneYet = false;
+      } else {
+        console.log("describe double submit")
+      }
+      return false
     }
-    return false
   }
   $("#describe-input").keypress(function(e) {
     if (e.which == 13) {

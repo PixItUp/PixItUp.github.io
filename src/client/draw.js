@@ -28,19 +28,24 @@ export function setupDraw(update: DrawUpdate, socket: any){
 
   $('#drawing').sketch();
   $('#drawing').sketch().actions = [];//Removed sketch's memory of the previous drawing
-  window.element = $('#drawing')
+  var iveGoneYet = false;
   function submitDrawing() {
-    console.log($('#drawing')[0].toDataURL());
-    socket.emit("event", JSON.stringify({
-      data: {
-        type: "Draw",
-        drawing: {
-          dataURI: $('#drawing')[0].toDataURL()
+    if (!iveGoneYet){
+      console.log($('#drawing')[0].toDataURL());
+      socket.emit("event", JSON.stringify({
+        data: {
+          type: "Draw",
+          drawing: {
+            dataURI: $('#drawing')[0].toDataURL()
+          }
         }
-      }
-    }))
-    submitted.show();
-    button.hide();
+      }))
+      submitted.show();
+      button.hide();
+      iveGoneYet = true;
+    } else {
+      console.log('duplicate call of draw submit');
+    }
   }
   button.click(submitDrawing);
 
