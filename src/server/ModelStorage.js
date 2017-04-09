@@ -22,13 +22,15 @@ export function makeModelStorage(reducer: Reducer,
 
     function updateWithEvent(event: Event, clientId: number, clients){
       const updates = reducer(event, clientId, model);
+      // console.log("DEBUG: updates for client " + clientId + " is " + JSON.stringify(updates));
       if (updates){
         updates.forEach((update, id) => {
           const socket = clients.get(id);
           if (socket){
             socket.emit("update", JSON.stringify(update));
           } else {
-            console.log("this is bads")
+            console.log("this is bads becuz the socket is ", socket)
+            console.log("clients is ", clients);
           }
         })
       }

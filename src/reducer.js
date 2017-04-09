@@ -32,10 +32,13 @@ export const reducer: Reducer = function(event, clientId, model){
 
 const lobbyMode: Reducer = function(event, clientId, model) {
   if (event.data.type === "SetName") {
-    let newPlayer = {name: event.data.name, jobQueue: makeJobQueue(), clientId: clientId}
-    model.players.set(clientId, newPlayer)
-    return updateAll(model, makeLobbyUpdate(model))
+    if (event.data.name){
+      let newPlayer = {name: event.data.name, jobQueue: makeJobQueue(), clientId: clientId}
+      model.players.set(clientId, newPlayer)
+      return updateAll(model, makeLobbyUpdate(model))
+    }
   } else if (event.data.type === "Connect"){
+    // console.log("DEBUG: returning update from reducer for client " + clientId);
     return new Map([[clientId, makeLobbyUpdate(model)]])
   } else if (event.data.type === "StartGame") {
     model.mode = makePromptMode(model.players)

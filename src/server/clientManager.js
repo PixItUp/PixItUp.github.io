@@ -22,10 +22,12 @@ export function setup(io: Server){
     clients.set(clientId, socket);
 
     //Let reducer know about new connection
+    // console.log("DEBUG: client with id " + clientId + " added");
     modelStorage.updateWithEvent({id: -1, data: {type: "Connect"}}, clientId, clients);
 
     //
     socket.on('disconnect', () => {
+      // console.log("DEBUG: client with id " + clientId + " DISCONNECTED");
       clients.delete(clientId);
       modelStorage.updateWithEvent({id: 666666666666, data: {type: "Disconnect"}}, clientId, clients);
     })
