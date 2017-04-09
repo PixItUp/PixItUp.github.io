@@ -49,31 +49,33 @@ const lobbyMode: Reducer = function(event, clientId, model) {
 const promptMode: Reducer = function(event, clientId, model) {
   if (event.data.type === "Prompt") {
     let words = event.data.prompt
-    if (model.mode.name === "PromptMode") {
-      let lines = model.mode.lines
-      let order = model.mode.playerOrder
-      let currentLine = lines.get(clientId)
-      if (currentLine && currentLine.line) {
-        currentLine.line.push(words)
-        let assignToNext = makeDrawUpdate(words)
-        let nextPlayer = model.players.get(getNextPlayer(order, clientId))
-        if (nextPlayer) {
-          addJob(nextPlayer.jobQueue, assignToNext)
-        }
-        let promptsDone = true
-        lines.forEach(function(line, id) {promptsDone = promptsDone && line.line[0]})
-        if (promptsDone) {
-          model.mode = makeGameMode(lines, order)
-          let updateMap = new Map()
-          model.players.forEach(function(player, id) {updateMap.set(id, getJob(player.jobQueue))})
-          return updateMap
-        }
+    if (words){
+      if (model.mode.name === "PromptMode") {
+        let lines = model.mode.lines
+        let order = model.mode.playerOrder
+        let currentLine = lines.get(clientId)
+        if (currentLine && currentLine.line) {
+          currentLine.line.push(words)
+          let assignToNext = makeDrawUpdate(words)
+          let nextPlayer = model.players.get(getNextPlayer(order, clientId))
+          if (nextPlayer) {
+            addJob(nextPlayer.jobQueue, assignToNext)
+          }
+          let promptsDone = true
+          lines.forEach(function(line, id) {promptsDone = promptsDone && line.line[0]})
+          if (promptsDone) {
+            model.mode = makeGameMode(lines, order)
+            let updateMap = new Map()
+            model.players.forEach(function(player, id) {updateMap.set(id, getJob(player.jobQueue))})
+            return updateMap
+          }
 
+        } else {
+          console.log("something weird happened involving a phone line which didn't exist")
+        }
       } else {
-        console.log("something weird happened involving a phone line which didn't exist")
+        console.log("a prompt event occurred when we weren't even in prompt mode I mean what")
       }
-    } else {
-      console.log("a prompt event occurred when we weren't even in prompt mode I mean what")
     }
 
   }
