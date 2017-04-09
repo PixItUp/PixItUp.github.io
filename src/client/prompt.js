@@ -1,7 +1,8 @@
 // @flow
 
 import type {PromptUpdate} from '../update';
+import type {Container} from './htmlUtils';
 
-export function makeLobby(update: PromptUpdate, socket: any){
+export function setupPrompt(update: PromptUpdate){
 
 }

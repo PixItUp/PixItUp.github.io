@@ -1,7 +1,8 @@
 // @flow
 
 import type {DescribeUpdate} from '../update';
+import type {Container} from './htmlUtils';
 
-export function makeLobby(update: DescribeUpdate, socket: any){
+export function setupDescribe(update: DescribeUpdate, socket: any){
 
 }
