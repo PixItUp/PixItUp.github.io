@@ -11,7 +11,8 @@ export type LobbyUpdate = {
 }
 
 export type PromptUpdate = {
-  name: "PromptUpdate"
+  name: "PromptUpdate",
+  suggestions: string[]
 }
 
 export type DescribeUpdate = {

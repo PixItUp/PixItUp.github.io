@@ -225,7 +225,8 @@ const gameMode: Reducer = function(event, clientId, model){
 
 function makePromptUpdate(model: Model): PromptUpdate {
   return {
-    name: "PromptUpdate"
+    name: "PromptUpdate",
+    suggestions: []
   }
 }
 
