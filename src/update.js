@@ -10,7 +10,7 @@ export type LobbyUpdate = {
 }
 
 export type PromptUpdate = {
-  name: "PromptUpdate",
+  name: "PromptUpdate"
 }
 
 export type DescribeUpdate = {
@@ -24,5 +24,5 @@ export type DrawUpdate = {
 }
 
 export type EndgameUpdate = {
-  name: "EndgameUpdate"
+
 }

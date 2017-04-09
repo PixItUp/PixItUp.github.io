@@ -1,6 +1,8 @@
 //@flow
 
 import type {Drawing} from "./drawing.js"
+import type {Update} from "./update.js"
+import type {JobQueue} from "./jobQueue.js"
 
 export type Model = {
   players: Map<number, Player>,
@@ -10,7 +12,8 @@ export type Model = {
 
 export type Player = {
   name: string,
-  clientId: number
+  clientId: number,
+  jobQueue: JobQueue
 }
 
 export type LobbyMode = {
@@ -46,10 +49,6 @@ export function makeModel(): Model {
     players: new Map(),
     mode: makeLobbyMode()
   }
-}
-
-export function nextPlayer() {
-
 }
 
 export function makePhoneLine(player: Player): PhoneLine {
