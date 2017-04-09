@@ -48,7 +48,16 @@
 
 
   <div id="promptDiv">
-    <input id="prompt-input">
+    <div class="container">
+      <h1>Enter a drawing prompt:</h1>
+      <div class="form-group">
+        <label for="prmt">Your prompt:</label>
+        <input type="text" class="form-control" id="prompt-input" placeholder="Example: A bird in the hand is worth two in the bush">
+      </div>
+      <div class="btn-group btn-group-lg">
+        <button type="button" class="btn btn-primary">Mix it up!</button>
+        <button type="button" class="btn btn-primary">Submit</button>
+      </div>
   </div>
 
   <div id="describeDiv">
@@ -57,10 +66,16 @@
   </div>
 
   <div id="drawDiv">
-    <div id="tools">
-      <a href="#colors_sketch" data-download="png" style="float: right; width: 100px;">Download</a>
+    <div class="container">
+      <h1>Draw this prompt:</h1>
+      <p>"a bird in the hand is a snake in ur boot"</p>
     </div>
-    <canvas id="drawing" width="800" height="300"></canvas>
+    <div class="container">
+      <div id="tools">
+        <a href="#colors_sketch" data-download="png" style="float: right; width: 100px;">Download</a>
+      </div>
+      <canvas id="drawing" width="800" height="300"></canvas>
+    </div>
   </div>
 
   <div id="endDiv">
