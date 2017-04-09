@@ -8,10 +8,17 @@ export function setupPrompt(update: PromptUpdate, socket: any){
   const submitted = $("#prompt-submitted");
   const buttons = $("#promptButtons");
   const input = $("#prompt-input");
+  const mixIt = $("#mix-it");
 
   buttons.show();
   input.prop("disabled", false);
   submitted.hide();
+
+  mixIt.click(function(){
+    console.log(update.suggestions);
+    var rand = update.suggestions[Math.floor(Math.random() * update.suggestions.length)];
+    input.val(rand);
+  })
 
   function takePrompt() {
     const prompt = input.val();

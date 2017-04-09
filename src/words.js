@@ -166,7 +166,7 @@ return wordpos.getNouns(s).then(function(b){
     })
   })
 }
- export function takestring(s){
+export function takestring(s){
   var xs=[]
   return takestringr(s,xs,1,1)
 }
@@ -174,6 +174,17 @@ return wordpos.getNouns(s).then(function(b){
   var xs=[]
   return dostuff(num,xs)
 }
+
+var nextRet = [];
+
+export function getWords(){
+  dothis(100).then(function(words){
+    nextRet = words;
+  })
+  return nextRet;
+}
+
+getWords();
   // dothis(10).then(console.log)
  // for(var i=0;i<sls.length;i++){
  //   for(var j=0;j<1;j++){

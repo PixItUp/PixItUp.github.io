@@ -11,6 +11,7 @@ import type {PromptUpdate, DescribeUpdate, DrawUpdate, EndgameUpdate} from './up
 import {getNextPlayer, getPreviousPlayer, makeModel} from './model';
 import type {Drawing} from './drawing';
 import {makeJobQueue, finishJob, addJob, getJob} from './jobQueue';
+import {getWords} from "./words";
 
 export const reducer: Reducer = function(event, clientId, model){
   if (event.data.type === "Connect"){
@@ -226,7 +227,7 @@ const gameMode: Reducer = function(event, clientId, model){
 function makePromptUpdate(model: Model): PromptUpdate {
   return {
     name: "PromptUpdate",
-    suggestions: []
+    suggestions: getWords()
   }
 }
 
