@@ -10,16 +10,15 @@ import type {Socket} from './clientManager';
 
 export type ModelStorage = {
   updateWithEvent: (event: Event, clientId: number, clients: Map<number, Socket>) => void,
-  currentModel: () => Model,
-  lastEventIdFor: () => Map<number, number>;
+  currentModel: () => Model
 };
 
 export type Reducer = (Event, number, Model) => ?Map<number, Update>;
 
+
 export function makeModelStorage(reducer: Reducer,
   startModel: Model): ModelStorage{
     const model = startModel;
-    const latestEventIds: Map<number, number> = new Map();//Stores for each user the latest event id
 
     function updateWithEvent(event: Event, clientId: number, clients){
       const updates = reducer(event, clientId, model);
@@ -29,15 +28,10 @@ export function makeModelStorage(reducer: Reducer,
           if (socket){
             socket.emit("update", JSON.stringify(update));
           } else {
-            //what happens now
+            console.log("this is bads")
           }
         })
       }
-      latestEventIds.set(clientId, event.id);
-    }
-
-    function lastEventIdFor(clientId, number) {
-      return latestEventIds;
     }
 
     function currentModel(){
@@ -46,7 +40,6 @@ export function makeModelStorage(reducer: Reducer,
 
     return {
       updateWithEvent,
-      currentModel,
-      lastEventIdFor
+      currentModel
     }
 }

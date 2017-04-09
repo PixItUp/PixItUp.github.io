@@ -6,6 +6,7 @@ import type {JobQueue} from "./jobQueue.js"
 
 export type Model = {
   players: Map<number, Player>,
+  clients: Set<number>,
   mode: LobbyMode | PromptMode | GameMode | EndMode
 
 }
@@ -47,6 +48,7 @@ export function makeModel(): Model {
 
   return {
     players: new Map(),
+    clients: new Set(),
     mode: makeLobbyMode()
   }
 }

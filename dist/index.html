@@ -18,7 +18,7 @@
 
     <div class="container">
 
-      <form class="form-inline">
+      <form class="form-inline" id="name-form">
         <div class="form-group">
           <label for="name-input">Username:</label>
           <input type="text" class="form-control" id="name-input">
@@ -26,20 +26,22 @@
         <button class="btn btn-default">Add User</button>
       </form>
 
-      <table id="myTable" class=" table order-list">
-        <thead>
+      <div id="table-container">
+        <table id="myTable" class=" table order-list">
+          <thead>
+              <tr>
+                <th>Players</th>
+              </tr>
+          </thead>
+          <tbody>
             <tr>
-              <th>Players</th>
+              <td>Wowzers McTrousers</td>
             </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Wowzers McTrousers</td>
-          </tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
 
-      <button class="btn btn-default">Start Game!</button>
+      <button class="btn btn-default" id="startGame">Start Game!</button>
     </div>
 
   </div>
