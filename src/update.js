@@ -2,7 +2,8 @@
 // import type {Model} from './model';
 import type {Drawing} from './drawing';
 
-export type Update = LobbyUpdate | PromptUpdate | DescribeUpdate | DrawUpdate | EndgameUpdate
+export type Update = {
+}
 
 export type LobbyUpdate = {
   name: "LobbyUpdate",
@@ -10,7 +11,7 @@ export type LobbyUpdate = {
 }
 
 export type PromptUpdate = {
-  name: "PromptUpdate",
+  name: "PromptUpdate"
 }
 
 export type DescribeUpdate = {
@@ -24,5 +25,5 @@ export type DrawUpdate = {
 }
 
 export type EndgameUpdate = {
-  name: "EndgameUpdate"
+
 }
