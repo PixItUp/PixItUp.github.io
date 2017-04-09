@@ -24,5 +24,5 @@ export type DrawUpdate = {
 }
 
 export type EndgameUpdate = {
-
+  name: "EndgameUpdate"
 }
