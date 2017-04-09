@@ -48,13 +48,13 @@ $(document).ready(function(){
       if (update.name === "LobbyUpdate"){
         setupLobby(update, socket);
       } else if (update.name === "PromptUpdate"){
-        setupPrompt(update);
+        setupPrompt(update, socket);
       } else if (update.name === "DescribeUpdate"){
-        setupDescribe(update);
+        setupDescribe(update, socket);
       } else if (update.name === "DrawUpdate"){
-        setupDraw(update);
+        setupDraw(update, socket);
       } else if (update.name === "EndgameUpdate"){
-        setupEnd(update);
+        setupEnd(update, socket);
       } else {
         console.log("invalid update recived: " + updateStr);
       }

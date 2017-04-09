@@ -7,5 +7,5 @@ import type {DrawUpdate} from '../update';
 import type {Container} from './htmlUtils';
 
 export function setupDraw(update: DrawUpdate, socket: any){
-  $('#colors_sketch').sketch();
+  $('#drawing').sketch();
 }
