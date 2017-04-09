@@ -69,5 +69,3 @@ function dothis(num){
   var xs=[]
   return dostuff(num,xs)
 }
-
-dothis(5).then(console.log)
