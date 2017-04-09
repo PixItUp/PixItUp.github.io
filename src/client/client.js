@@ -44,7 +44,7 @@ socket.on("update", function(updateStr){
     console.log("update type of " + update.name);
     setVisible(update.name);
     if (update.name === "LobbyUpdate"){
-      setupLobby(update);
+      setupLobby(update, socket);
     } else if (update.name === "PromptUpdate"){
       setupPrompt(update);
     } else if (update.name === "DescribeUpdate"){
