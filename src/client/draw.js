@@ -8,12 +8,18 @@ import type {Container} from './htmlUtils';
 
 export function setupDraw(update: DrawUpdate, socket: any){
   const canvas = $('#drawing')[0];
+  const button = $("#submit-drawing");
+  const submitted = $("#draw-submitted");
+
+  button.show();
+  submitted.hide();
 
   $(window).resize(resizeCanvas);//not 100% sure this will work
 
   function resizeCanvas(){
-    $(canvas).attr('width', $("#drawDiv").width() * 0.9);
-    $(canvas).attr('height', $("#drawDiv").width() * 0.7);
+    const width = Math.min($("#drawDiv").width(), 750);
+    $(canvas).attr('width',  width * 0.9);
+    $(canvas).attr('height', width * 0.7);
   }
   resizeCanvas();
 
@@ -32,8 +38,10 @@ export function setupDraw(update: DrawUpdate, socket: any){
         }
       }
     }))
+    submitted.show();
+    button.hide();
   }
-  $("#submit-drawing").click(submitDrawing);
+  button.click(submitDrawing);
 
   $("#draw-prompt").text(update.description);
 }
