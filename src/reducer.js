@@ -6,7 +6,7 @@ import type {Update} from './update';
 import type {LobbyUpdate} from './update';
 import {makeGameMode} from './model';
 import {makePromptMode} from './model';
-import type {PromptMode} from './model';
+import type {PromptMode, GameMode, PhoneLine} from './model';
 import type {PromptUpdate, DescribeUpdate, DrawUpdate, EndgameUpdate} from './update';
 import {getNextPlayer, getPreviousPlayer} from './model';
 import type {Drawing} from './drawing';
@@ -142,7 +142,11 @@ const gameMode: Reducer = function(event, clientId, model){
             }
           } else {
             if (areWeDone(model)) {
-              return updateAll(model, makeEndgameUpdate())
+              if (model.mode.name === "GameMode"){
+                return updateAll(model, makeEndgameUpdate(model.mode))
+              } else {
+                console.log("well shit");
+              }
             }
           }
         }
@@ -194,7 +198,11 @@ const gameMode: Reducer = function(event, clientId, model){
             }
           } else {
             if (areWeDone(model)) {
-              return updateAll(model, makeEndgameUpdate())
+              if (model.mode.name === "GameMode"){
+                return updateAll(model, makeEndgameUpdate(model.mode))
+              } else {
+                console.log("well shit");
+              }
             }
           }
         }
@@ -243,6 +251,13 @@ function areWeDone(model : Model) : boolean {
   return done
 }
 
-function makeEndgameUpdate(): EndgameUpdate {
-  return {name: "EndgameUpdate"}
+function makeEndgameUpdate(mode: GameMode): EndgameUpdate {
+  const lines: Array<PhoneLine> = [];
+  mode.lines.forEach(function(line, id){
+    lines.push(line);
+  });
+  return {
+    name: "EndgameUpdate",
+    lines: lines
+  }
 }

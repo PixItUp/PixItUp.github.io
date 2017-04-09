@@ -1,6 +1,7 @@
 // @flow
 // import type {Model} from './model';
 import type {Drawing} from './drawing';
+import type {PhoneLine} from './model';
 
 export type Update = LobbyUpdate | PromptUpdate | DescribeUpdate | DrawUpdate | EndgameUpdate
 
@@ -24,5 +25,6 @@ export type DrawUpdate = {
 }
 
 export type EndgameUpdate = {
-  name: "EndgameUpdate"
+  name: "EndgameUpdate",
+  lines: Array<PhoneLine>
 }
