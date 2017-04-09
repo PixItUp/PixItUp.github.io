@@ -14,7 +14,8 @@ export type Model = {
 export type Player = {
   name: string,
   clientId: number,
-  jobQueue: JobQueue
+  jobQueue: JobQueue,
+  roundNumber: number
 }
 
 export type LobbyMode = {
@@ -74,6 +75,15 @@ export function getNextPlayer(order : number[], id : number) : number {
     return order[pos+1]
   } else {
     return order[0]
+  }
+}
+
+export function getPreviousPlayer(order : number[], id : number) : number {
+  let pos = order.indexOf(id)
+  if (pos > 0) {
+    return order[pos-1]
+  } else {
+    return order[order.length-1]
   }
 }
 
