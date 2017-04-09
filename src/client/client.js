@@ -16,6 +16,7 @@ const socket = io();
 
 $(document).ready(function(){
   const divs:Map<string, any> = new Map([
+    ["nothing triggers this", $("#loading")],
     ["LobbyUpdate", $("#lobbyDiv")],
     ["PromptUpdate", $("#promptDiv")],
     ["DescribeUpdate", $("#describeDiv")],
