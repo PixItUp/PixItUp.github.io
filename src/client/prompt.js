@@ -15,7 +15,6 @@ export function setupPrompt(update: PromptUpdate, socket: any){
   submitted.hide();
 
   mixIt.click(function(){
-    console.log(update.suggestions);
     var rand = update.suggestions[Math.floor(Math.random() * update.suggestions.length)];
     input.val(rand);
   })
