@@ -18,8 +18,9 @@ export function setupDraw(update: DrawUpdate, socket: any){
 
   function resizeCanvas(){
     const width = Math.min($("#drawDiv").width(), 750);
+    const height = Math.min($("#drawDiv").height(), 750);
     $(canvas).attr('width',  width * 0.9);
-    $(canvas).attr('height', width * 0.7);
+    $(canvas).attr('height', height * 0.5);
   }
   resizeCanvas();
 
