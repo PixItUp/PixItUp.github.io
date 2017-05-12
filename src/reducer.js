@@ -134,8 +134,6 @@ const gameMode: Reducer = function(event, clientId, model){
           let currentPlayer = model.players.get(clientId)
           if (currentPlayer) {
             currentPlayer.roundNumber = currentPlayer.roundNumber + 1
-            console.log("incrementing roundnumber with draw")
-            console.log(currentPlayer.roundNumber)
             finishJob(currentPlayer.jobQueue)
             if (currentPlayer.jobQueue.length > 0) {
               updateMap.set(clientId, getJob(currentPlayer.jobQueue))
@@ -145,11 +143,7 @@ const gameMode: Reducer = function(event, clientId, model){
           let nextPlayer = model.players.get(nextPlayerId)
           if (nextPlayer) {
             if (currentLine.startingPlayer.clientId !== nextPlayer.clientId) {
-              console.log("I don't think the next player started this phoneline")
-              console.log(currentLine.startingPlayer.clientId)
-              console.log(nextPlayer.clientId)
               if (currentPlayer) {
-                console.log(currentPlayer.roundNumber)
               }
               let newUpdate = makeDescribeUpdate(drawing)
               addJob(nextPlayer.jobQueue, newUpdate)
@@ -161,7 +155,6 @@ const gameMode: Reducer = function(event, clientId, model){
                 if (model.mode.name === "GameMode"){
                   return updateAll(model, makeEndgameUpdate(model.mode))
                 } else {
-                  console.log("well shit");
                 }
               }
             }
