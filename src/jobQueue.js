@@ -1,3 +1,5 @@
+//@flow
+
 import type {DescribeUpdate, DrawUpdate, PromptUpdate} from "./update.js"
 
 export type JobQueue = {
