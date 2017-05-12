@@ -21,6 +21,12 @@ export const reducer: Reducer = function(event, clientId, model){
     if (model.clients.size === 0) {
       doYourselfForARestart(model)
     }
+  } else if (event.data.type === "EndNow"){
+    if (model.mode.name === "GameMode"){
+      return updateAll(model, makeEndgameUpdate(model.mode));
+    } else {
+      console.log('fuck')
+    }
   }
 
 

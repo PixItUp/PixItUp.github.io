@@ -12,6 +12,11 @@ const $ = require("jquery");
 
 
 const socket = io();
+
+window.endNow = function(){
+  socket.emit("hack", {})
+}
+
 // socket.emit("name", prompt("what is your name", "bro"));
 
 $(document).ready(function(){

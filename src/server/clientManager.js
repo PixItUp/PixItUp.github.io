@@ -4,7 +4,7 @@ import {makeModelStorage} from './ModelStorage';
 import type {ModelStorage} from './ModelStorage';
 import {makeModel} from '../model';
 import {reducer} from '../reducer';
-import type {Event} from '../event';
+import type {Event, EndNow} from '../event';
 import type {Update} from '../update';
 
 const modelStorage: ModelStorage = makeModelStorage(reducer, makeModel());
@@ -34,6 +34,9 @@ export function setup(io: Server){
     socket.on('event', function(eventStr){
       const event: Event = JSON.parse(eventStr);
       modelStorage.updateWithEvent(event, clientId, clients);
+    })
+    socket.on('hack', function(dontcare){
+      modelStorage.updateWithEvent({data: {type: "EndNow"}}, -1, clients);
     })
   });
 }

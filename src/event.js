@@ -3,7 +3,7 @@
 import type {Drawing} from './drawing';
 
 export type Event = {
-  data: SetName | Prompt | Describe | Draw | Disconnect | Connect | StartGame
+  data: SetName | Prompt | Describe | Draw | Disconnect | Connect | StartGame | EndNow
 }
 
 export type SetName = {
@@ -36,6 +36,10 @@ export type Disconnect = {
 
 export type StartGame = {
   type: "StartGame"
+}
+
+export type EndNow = {
+  type: "EndNow"
 }
 
 
