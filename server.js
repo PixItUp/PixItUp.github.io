@@ -24,5 +24,5 @@ app.use('/media', express.static(__dirname + '/dist/media'));
 clientManager.setup(io);
 
 httpServer.listen(8000, function(){
-  console.log('listening on *:3000');
+  console.log('listening on localhost:8000');
 });
